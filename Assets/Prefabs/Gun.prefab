@@ -285,7 +285,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BarrelTransform: {fileID: 3548072644069558633}
   BarrelEndTransform: {fileID: 3548072643460428342}
-  PushForce: 2
+  PushForce: 7
   Dps: 75
   LineRenderer: {fileID: 3548072642817854525}
   HitColor: {r: 0, g: 1, b: 0, a: 1}

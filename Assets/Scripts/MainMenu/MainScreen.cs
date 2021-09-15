@@ -17,6 +17,8 @@ namespace SF.MainMenu {
 			LevelChoiceButton.onClick.AddListener(OnLevelChoiceClick);
 			ExitButton.onClick.AddListener(OnExitClick);
 			ResetProgressButton.onClick.AddListener(OnResetProgressClick);
+
+			Application.targetFrameRate = 60;
 		}
 
 		void OnStartGameClick() {

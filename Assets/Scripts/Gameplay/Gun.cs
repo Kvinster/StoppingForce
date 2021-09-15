@@ -26,7 +26,7 @@ namespace SF.Gameplay {
 			_pauseManager = starter.PauseManager;
 		}
 
-		void Update() {
+		void FixedUpdate() {
 			if ( _pauseManager.IsPaused ) {
 				return;
 			}
@@ -62,7 +62,7 @@ namespace SF.Gameplay {
 					ForceMode2D.Force);
 				var box = hit.rigidbody.gameObject.GetComponent<Box>();
 				Assert.IsTrue(box);
-				box.TakeDamage(Dps * Time.deltaTime);
+				box.TakeDamage(Dps * Time.fixedDeltaTime);
 
 				LineRenderer.startColor = LineRenderer.endColor = HitColor;
 				LineRenderer.SetPositions(new[] { barrelPos, (Vector3) hit.point });
