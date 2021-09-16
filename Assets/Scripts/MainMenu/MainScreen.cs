@@ -19,6 +19,8 @@ namespace SF.MainMenu {
 			ResetProgressButton.onClick.AddListener(OnResetProgressClick);
 
 			Application.targetFrameRate = 60;
+
+			PlayFabService.TryLogin();
 		}
 
 		void OnStartGameClick() {

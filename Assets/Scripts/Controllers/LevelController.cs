@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 using SF.Configs;
+using SF.Services;
 using SF.State;
 using SF.Utils;
 
@@ -16,12 +17,19 @@ namespace SF.Controllers {
 			CurLevelIndex = levelIndex;
 		}
 
-		public void FinishLevel(bool win) {
+		public void OnLevelWon(float score) {
 			Assert.IsTrue(IsLevelActive);
-			if ( win ) {
-				GameState.Instance.NextLevelIndex = Mathf.Clamp(GameState.Instance.NextLevelIndex + 1, 0,
-					LevelsConfig.Instance.TotalLevels - 1);
+			GameState.Instance.NextLevelIndex = Mathf.Clamp(GameState.Instance.NextLevelIndex + 1, 0,
+				LevelsConfig.Instance.TotalLevels - 1);
+
+			if ( PlayFabService.IsLoggedIn ) {
+				PlayFabService.TrySendScore(CurLevelIndex, Mathf.CeilToInt(score));
 			}
+
+			CurLevelIndex = -1;
+		}
+
+		public void OnLevelLost() {
 			CurLevelIndex = -1;
 		}
 
