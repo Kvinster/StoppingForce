@@ -32,7 +32,13 @@ namespace SF.MainMenu {
 		}
 
 		void OnExitClick() {
-			Application.Quit();
+			if ( Application.isEditor ) {
+#if UNITY_EDITOR
+				UnityEditor.EditorApplication.isPlaying = false;
+#endif
+			} else {
+				Application.Quit();
+			}
 		}
 
 		void OnResetProgressClick() {
