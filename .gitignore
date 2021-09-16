@@ -35,15 +35,8 @@ ExportedObj/
 
 # Rider
 # https://github.com/JetBrains/resharper-rider-samples/blob/master/.gitignore
-**/.idea/**/tasks.xml
-**/.idea/dictionaries
-**/.idea/httpRequests/
-**/.idea/**/dataSources/
-**/.idea/**/dataSources.ids
-**/.idea/**/dataSources.xml
-**/.idea/**/dataSources.local.xml
-**/.idea/**/sqlDataSources.xml
-**/.idea/**/dynamic.xml
+.idea/
+Assets/Plugins/Editor/JetBrains*
 *.suo
 *.user
 .vs/
