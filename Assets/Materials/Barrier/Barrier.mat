@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Barrier
+  m_Shader: {fileID: -6465566751694194690, guid: 79640bc60807446e0abbc953b8585b40,
+    type: 3}
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_B215CF15:
+        m_Texture: {fileID: 2800000, guid: ed74436c9d0aa443fae8d8af378fe47a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_1769D026: 2.02
+    - Vector1_399FB66C: 0.5
+    - Vector1_60920154: 4.95
+    - Vector1_623771C1: 1
+    - Vector1_E577EC9B: 2
+    - Vector1_E89A48F6: 0.1
+    - _Visibility: 1
+    m_Colors:
+    - Color_66AD281C: {r: 1, g: 1, b: 1, a: 1}
+    - Vector2_53EF237: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _MainColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ShowPoint: {r: 0, g: 0, b: 0, a: 0}
