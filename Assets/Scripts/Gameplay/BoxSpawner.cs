@@ -26,8 +26,9 @@ namespace SF.Gameplay {
 
 		LevelManager _levelManager;
 
-		public int TotalBoxes => TotalBoxesSerialized;
-		public int BoxesLeft  => TotalBoxes - _boxCount;
+		public int   TotalBoxes => TotalBoxesSerialized;
+		public int   BoxesLeft  => TotalBoxes - _boxCount;
+		public float TotalBoxHp => BoxStartHp;
 
 		protected override void Init(GameStarter starter) {
 			_levelManager = starter.LevelManager;

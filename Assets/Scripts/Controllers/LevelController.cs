@@ -17,14 +17,10 @@ namespace SF.Controllers {
 			CurLevelIndex = levelIndex;
 		}
 
-		public void OnLevelWon(float score) {
+		public void OnLevelWon() {
 			Assert.IsTrue(IsLevelActive);
 			GameState.Instance.NextLevelIndex = Mathf.Clamp(GameState.Instance.NextLevelIndex + 1, 0,
 				LevelsConfig.Instance.TotalLevels - 1);
-
-			if ( PlayFabService.IsLoggedIn ) {
-				PlayFabService.TrySendScore(CurLevelIndex, Mathf.CeilToInt(score));
-			}
 
 			CurLevelIndex = -1;
 		}

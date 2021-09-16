@@ -2,8 +2,11 @@ using UnityEngine;
 
 using System.Collections.Generic;
 
+using SF.Services.Exceptions;
+
 using PlayFab;
 using PlayFab.ClientModels;
+using RSG;
 
 namespace SF.Services {
 	public static class PlayFabService {
@@ -25,10 +28,11 @@ namespace SF.Services {
 			_isLoginInProgress = true;
 		}
 
-		public static void TrySendScore(int levelIndex, int score) {
+		public static IPromise TrySendScore(int levelIndex, int score) {
 			if ( !IsLoggedIn ) {
-				return;
+				return Promise.Rejected(new NotLoggedInException());
 			}
+			var promise = new Promise();
 			PlayFabClientAPI.UpdatePlayerStatistics(new UpdatePlayerStatisticsRequest {
 				Statistics = new List<StatisticUpdate> {
 					new StatisticUpdate {
@@ -36,7 +40,30 @@ namespace SF.Services {
 						Value         = score
 					}
 				}
-			}, OnStatisticsUpdateSuccess, OnStatisticsUpdateError);
+			}, _ => {
+				promise.Resolve();
+			}, error => {
+				Debug.LogErrorFormat("PlayFabService.TrySendScore: failed sending score\n{0}", error);
+				promise.Reject(new SendScoreException(error.ToString()));
+			});
+			return promise;
+		}
+
+		public static IPromise<List<PlayerLeaderboardEntry>> GetLeaderboard(int levelIndex) {
+			if ( !IsLoggedIn ) {
+				return Promise<List<PlayerLeaderboardEntry>>.Rejected(new NotLoggedInException());
+			}
+			var promise = new Promise<List<PlayerLeaderboardEntry>>();
+			PlayFabClientAPI.GetLeaderboard(new GetLeaderboardRequest {
+				StatisticName   = string.Format(LevelLeaderboardStatisticNameTemplate, levelIndex),
+				MaxResultsCount = 10,
+			}, result => {
+				promise.Resolve(result.Leaderboard);
+			}, error => {
+				Debug.LogErrorFormat("PlayFabService.GetLeaderboard: failed sending score\n{0}", error);
+				promise.Resolve(null);
+			});
+			return promise;
 		}
 
 		static void OnLogin(LoginResult loginResult) {
@@ -50,15 +77,6 @@ namespace SF.Services {
 				error.ErrorMessage);
 			_isLoginInProgress = false;
 			IsLoggedIn        = false;
-		}
-
-		static void OnStatisticsUpdateSuccess(UpdatePlayerStatisticsResult result) {
-			Debug.LogFormat("PlayFabService.OnStatisticsUpdateSuccess");
-		}
-
-		static void OnStatisticsUpdateError(PlayFabError error) {
-			Debug.LogErrorFormat("PlayFabService.OnStatisticsUpdateError: code '{0}', message '{1}'",
-				error.Error.ToString(), error.ErrorMessage);
 		}
 	}
 }

@@ -115,7 +115,7 @@ namespace SF.Gameplay.UI {
 				goalAnim?.Kill(true);
 			}
 			_pauseManager.PauseBy(this);
-			LevelController.Instance.OnLevelWon(_levelManager.TotalProgress);
+			LevelController.Instance.OnLevelWon();
 			WinWindow.Show(_levelManager);
 		}
 

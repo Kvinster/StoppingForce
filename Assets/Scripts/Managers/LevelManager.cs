@@ -61,11 +61,21 @@ namespace SF.Managers {
 
 		public int TotalBoxesUsed { get; private set; }
 
-		public float TotalProgress {
+		public float TotalSourcesProgress {
 			get {
 				var res = 0f;
 				foreach ( var progressSource in _progressSources ) {
 					res += progressSource.CurProgress;
+				}
+				return res;
+			}
+		}
+
+		public float TotalProgress {
+			get {
+				var res = TotalSourcesProgress;
+				foreach ( var boxesSource in _boxesSources ) {
+					res += boxesSource.BoxesLeft * boxesSource.TotalBoxHp;
 				}
 				return res;
 			}
