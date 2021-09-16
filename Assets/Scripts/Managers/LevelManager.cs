@@ -28,7 +28,7 @@ namespace SF.Managers {
 		public int TotalProgressSources => _progressSources.Count;
 
 		public bool IsGoalAchieved =>
-			_progressSources.All(progressSource => progressSource.CurProgress > progressSource.Goal);
+			_progressSources.All(progressSource => progressSource.CurProgress >= progressSource.Goal);
 
 		public bool CanFinishLevel {
 			get {

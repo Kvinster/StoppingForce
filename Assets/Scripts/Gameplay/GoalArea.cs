@@ -25,7 +25,7 @@ namespace SF.Gameplay {
 		public float CurProgress {
 			get => _curTotalProgress;
 			private set {
-				_curTotalProgress = value;
+				_curTotalProgress = Mathf.CeilToInt(value);
 				OnCurProgressChanged?.Invoke(_curTotalProgress);
 			}
 		}
@@ -53,6 +53,7 @@ namespace SF.Gameplay {
 				foreach ( var activeBox in _activeBoxes ) {
 					totalProgress += activeBox.CurHp;
 				}
+				totalProgress = Mathf.CeilToInt(totalProgress);
 				if ( !Mathf.Approximately(totalProgress, CurProgress) ) {
 					CurProgress = totalProgress;
 					_levelManager.OnCurProgressChanged(this, CurProgress);
