@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f329e880552d427d8b05bbaf6fab8393, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GoalAnimSpeed: 40
+  GoalAnimSpeed: 3
   Text: {fileID: 875893034463756964}
   GoalArea: {fileID: 875893033273695540}
 --- !u!23 &875893034463756966
