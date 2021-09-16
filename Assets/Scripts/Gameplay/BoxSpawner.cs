@@ -16,6 +16,7 @@ namespace SF.Gameplay {
 		public GameObject BoxPrefab;
 		public Transform SpawnOrigin;
 		public Transform PushDirection;
+		public Transform ViewTransform;
 
 		int _boxCount;
 
@@ -27,6 +28,10 @@ namespace SF.Gameplay {
 		protected override void Init(GameStarter starter) {
 			_levelManager = starter.LevelManager;
 			_levelManager.RegisterBoxesSource(this);
+
+			var diff = (PushDirection.position - SpawnOrigin.position).normalized;
+			var rotZ = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+			ViewTransform.rotation = Quaternion.Euler(0, 0, rotZ - 90);
 		}
 
 		void Update() {

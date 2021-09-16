@@ -279,6 +279,7 @@ MonoBehaviour:
     type: 3}
   SpawnOrigin: {fileID: 7269694011986286657}
   PushDirection: {fileID: 7269694011851728321}
+  ViewTransform: {fileID: 1991372993888787684}
 --- !u!1 &7333344036178280814
 GameObject:
   m_ObjectHideFlags: 0
