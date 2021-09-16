@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
+using System.Collections;
+
 using SF.Managers;
 
 using Random = UnityEngine.Random;
@@ -12,11 +14,13 @@ namespace SF.Gameplay {
 		public float PushForce;
 		public float RotationForce;
 		public float BoxStartHp = 100;
+		public float IgnoreCollisionTime = 1f;
 		[Header("Dependencies")]
 		public GameObject BoxPrefab;
-		public Transform SpawnOrigin;
-		public Transform PushDirection;
-		public Transform ViewTransform;
+		public Transform  SpawnOrigin;
+		public Transform  PushDirection;
+		public Transform  ViewTransform;
+		public Collider2D BarrierCollider;
 
 		int _boxCount;
 
@@ -54,7 +58,19 @@ namespace SF.Gameplay {
 			box.Init(BoxStartHp);
 			++_boxCount;
 
+			var boxCollider = boxGo.GetComponent<Collider2D>();
+			Assert.IsTrue(boxCollider);
+			Physics2D.IgnoreCollision(BarrierCollider, boxCollider, true);
+			StartCoroutine(StopIgnoreCollisionCoro(boxCollider));
+
 			_levelManager.OnBoxSpawned();
+		}
+
+		IEnumerator StopIgnoreCollisionCoro(Collider2D boxCollider) {
+			yield return new WaitForSeconds(IgnoreCollisionTime);
+			if ( boxCollider ) {
+				Physics2D.IgnoreCollision(BarrierCollider, boxCollider, false);
+			}
 		}
 
 		void OnDrawGizmos() {
