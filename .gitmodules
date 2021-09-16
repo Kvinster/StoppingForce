@@ -1,0 +1,3 @@
+[submodule "Assets/C-Sharp-Promise"]
+	path = Assets/C-Sharp-Promise
+	url = https://github.com/Real-Serious-Games/C-Sharp-Promise.git
