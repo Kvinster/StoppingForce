@@ -28,8 +28,6 @@ namespace SF.Gameplay.UI {
 		public GameObject GameCompleteRoot;
 		public GameObject NextLevelButtonRoot;
 		public Button     NextLevelButton;
-		[Header("Leaderboard")]
-		public float LeaderboardAnimPeriod = 0.2f;
 		[Space]
 		public GameObject RecordsRoot;
 		public Transform  RecordsParent;
