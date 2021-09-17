@@ -63,6 +63,9 @@ namespace SF.Services {
 			if ( !IsLoggedIn ) {
 				return Promise.Rejected(new NotLoggedInException());
 			}
+			if ( Application.isEditor ) {
+				return Promise.Resolved();
+			}
 			var promise = new Promise();
 			PlayFabClientAPI.UpdatePlayerStatistics(
 				new UpdatePlayerStatisticsRequest {
