@@ -131,7 +131,7 @@ namespace SF.Managers {
 
 		void Update() {
 			AllBoxesStationary = true;
-			foreach ( var box in Box.Instances ) {
+			foreach ( var box in GameplayBox.Instances ) {
 				if ( !box.IsStationary ) {
 					AllBoxesStationary = false;
 				}

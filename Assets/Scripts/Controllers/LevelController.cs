@@ -14,6 +14,7 @@ namespace SF.Controllers {
 
 		public void StartLevel(int levelIndex) {
 			Assert.IsFalse(IsLevelActive);
+			Assert.IsTrue(levelIndex <= GameState.Instance.MaxLevelIndex);
 			CurLevelIndex = levelIndex;
 		}
 

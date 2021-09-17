@@ -1,18 +1,13 @@
 using UnityEngine;
 
 using System;
-using System.Collections.Generic;
 
 using TMPro;
 
-namespace SF.Gameplay {
-	public sealed class Box : MonoBehaviour {
-		const float MaxStationaryBoxSpeed = 0.25f;
-
-		public static readonly HashSet<Box> Instances = new HashSet<Box>();
-
+namespace SF.Common {
+	public abstract class BaseBox : MonoBehaviour {
 		[Header("Parameters")]
-		public Color OkColor   = Color.white;
+		public Color OkColor = Color.white;
 		public Color DeadColor = Color.red;
 		[Header("Dependencies")]
 		public SpriteRenderer SpriteRenderer;
@@ -30,34 +25,15 @@ namespace SF.Gameplay {
 			}
 		}
 
-		public bool IsStationary { get; private set; }
-
 		public event Action<float> OnCurHpChanged;
-		public event Action<Box>   OnDestroyed;
 
-		void OnEnable() {
-			Instances.Add(this);
-		}
-
-		void OnDisable() {
-			Instances.Remove(this);
-		}
-
-		void OnDestroy() {
-			OnDestroyed?.Invoke(this);
-		}
-
-		void FixedUpdate() {
-			IsStationary = Rigidbody.velocity.magnitude <= MaxStationaryBoxSpeed;
-		}
-
-		public void Init(float startHp) {
+		protected void InitInternal(float startHp) {
 			_startHp = startHp;
 			CurHp    = _startHp;
 			UpdateView();
 		}
 
-		public void TakeDamage(float damage) {
+		public virtual void TakeDamage(float damage) {
 			CurHp = Mathf.Max(CurHp - damage, 0f);
 			if ( Mathf.Approximately(CurHp, 0f) ) {
 				Die();
@@ -66,7 +42,7 @@ namespace SF.Gameplay {
 			}
 		}
 
-		public void Die() {
+		public virtual void Die() {
 			Destroy(gameObject);
 		}
 
@@ -79,7 +55,7 @@ namespace SF.Gameplay {
 			SpriteRenderer.color = Color.Lerp(OkColor, DeadColor, (_startHp - CurHp) / _startHp);
 		}
 
-		void UpdateText() {
+		protected virtual void UpdateText() {
 			Text.text = Mathf.CeilToInt(CurHp).ToString();
 		}
 	}

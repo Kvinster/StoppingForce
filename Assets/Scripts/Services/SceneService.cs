@@ -9,6 +9,10 @@ namespace SF.Services {
 			SceneManager.LoadScene("Level_Common", LoadSceneMode.Additive);
 		}
 
+		public static void LoadLevelSelect() {
+			SceneManager.LoadScene("LevelSelect");
+		}
+
 		public static void LoadMainMenu() {
 			SceneManager.LoadScene("MainMenu");
 		}

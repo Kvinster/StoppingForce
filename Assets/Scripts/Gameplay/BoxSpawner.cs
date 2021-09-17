@@ -54,7 +54,7 @@ namespace SF.Gameplay {
 			boxRb.AddForce((PushDirection.position - SpawnOrigin.position).normalized * PushForce, ForceMode2D.Impulse);
 			boxRb.AddTorque(RotationForce, ForceMode2D.Impulse);
 
-			var box = boxGo.GetComponent<Box>();
+			var box = boxGo.GetComponent<GameplayBox>();
 			Assert.IsTrue(box);
 			box.Init(BoxStartHp);
 			++_boxCount;

@@ -33,7 +33,7 @@ namespace SF.Gameplay {
 		}
 
 		void OnCollisionEnter2D(Collision2D other) {
-			var box = other.gameObject.GetComponent<Box>();
+			var box = other.gameObject.GetComponent<GameplayBox>();
 			if ( !box ) {
 				return;
 			}

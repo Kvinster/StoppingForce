@@ -3,15 +3,16 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
+using SF.Common;
 using SF.Managers;
 
 namespace SF.Gameplay {
 	public sealed class DeathZone : GameComponent {
 		sealed class BoxTimer {
-			public readonly Box   Box;
-			public          float Timer;
+			public readonly BaseBox Box;
+			public          float   Timer;
 
-			public BoxTimer(Box box) {
+			public BoxTimer(BaseBox box) {
 				Box   = box;
 				Timer = 0f;
 			}
@@ -42,7 +43,7 @@ namespace SF.Gameplay {
 		}
 
 		void OnTriggerEnter2D(Collider2D other) {
-			var box = other.GetComponentInChildren<Box>();
+			var box = other.GetComponentInChildren<BaseBox>();
 			if ( !box || _boxTimers.Any(x => x.Box == box) ) {
 				return;
 			}
@@ -50,7 +51,7 @@ namespace SF.Gameplay {
 		}
 
 		void OnTriggerExit2D(Collider2D other) {
-			var box = other.GetComponentInChildren<Box>();
+			var box = other.GetComponentInChildren<BaseBox>();
 			if ( !box ) {
 				return;
 			}

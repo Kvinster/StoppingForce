@@ -8,11 +8,13 @@ using SF.State;
 namespace SF.MainMenu {
 	public sealed class MainScreen : MonoBehaviour {
 		public Button StartGameButton;
+		public Button LevelSelectButton;
 		public Button ExitButton;
 		public Button ResetProgressButton;
 
 		void Start() {
 			StartGameButton.onClick.AddListener(OnStartGameClick);
+			LevelSelectButton.onClick.AddListener(OnLevelSelectClick);
 			ExitButton.onClick.AddListener(OnExitClick);
 			ResetProgressButton.onClick.AddListener(OnResetProgressClick);
 
@@ -25,6 +27,10 @@ namespace SF.MainMenu {
 			var nextLevelIndex = GameState.Instance.NextLevelIndex;
 			LevelController.Instance.StartLevel(nextLevelIndex);
 			SceneService.LoadLevel(GameState.Instance.NextLevelIndex);
+		}
+
+		void OnLevelSelectClick() {
+			SceneService.LoadLevelSelect();
 		}
 
 		void OnExitClick() {

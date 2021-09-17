@@ -69,7 +69,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: c785c6afe6dbe4ca08263e8665d54fa1, type: 3}
   m_Color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
   m_FlipX: 0
@@ -286,8 +286,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BarrelTransform: {fileID: 3548072644069558633}
   BarrelEndTransform: {fileID: 3548072643460428342}
+  Rigidbody: {fileID: 0}
   PushForce: 7
   Dps: 75
+  MovementForce: 1
   LineRenderer: {fileID: 3548072642817854525}
   HitColor: {r: 0, g: 1, b: 0, a: 1}
   NoHitColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

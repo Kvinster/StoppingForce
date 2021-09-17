@@ -19,7 +19,7 @@ namespace SF.Gameplay {
 		float _curTotalProgress;
 		bool  _needUpdateTotalProgress;
 
-		readonly HashSet<Box> _activeBoxes = new HashSet<Box>();
+		readonly HashSet<GameplayBox> _activeBoxes = new HashSet<GameplayBox>();
 
 		public float Goal        => GoalSerialized;
 		public float CurProgress {
@@ -63,7 +63,7 @@ namespace SF.Gameplay {
 		}
 
 		void OnBoxEnter(GameObject boxGo) {
-			var box = boxGo.GetComponentInChildren<Box>();
+			var box = boxGo.GetComponentInChildren<GameplayBox>();
 			if ( !box || _activeBoxes.Contains(box) ) {
 				return;
 			}
@@ -75,7 +75,7 @@ namespace SF.Gameplay {
 		}
 
 		void OnBoxExit(GameObject boxGo) {
-			var box = boxGo.GetComponentInChildren<Box>();
+			var box = boxGo.GetComponentInChildren<GameplayBox>();
 			if ( !box || !_activeBoxes.Contains(box) ) {
 				return;
 			}
@@ -86,7 +86,7 @@ namespace SF.Gameplay {
 			_needUpdateTotalProgress = true;
 		}
 
-		void OnBoxDestroyed(Box box) {
+		void OnBoxDestroyed(GameplayBox box) {
 			box.OnCurHpChanged -= OnBoxHpChanged;
 			box.OnDestroyed    -= OnBoxDestroyed;
 		}
