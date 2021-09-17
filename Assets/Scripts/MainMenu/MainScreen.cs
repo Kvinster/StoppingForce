@@ -5,18 +5,25 @@ using SF.Controllers;
 using SF.Services;
 using SF.State;
 
+using TMPro;
+
 namespace SF.MainMenu {
 	public sealed class MainScreen : MonoBehaviour {
-		public Button StartGameButton;
-		public Button LevelSelectButton;
-		public Button ExitButton;
-		public Button ResetProgressButton;
+		const string VersionTextTemplate = "Version:{0}";
+
+		public Button   StartGameButton;
+		public Button   LevelSelectButton;
+		public Button   ExitButton;
+		public Button   ResetProgressButton;
+		public TMP_Text VersionText;
 
 		void Start() {
 			StartGameButton.onClick.AddListener(OnStartGameClick);
 			LevelSelectButton.onClick.AddListener(OnLevelSelectClick);
 			ExitButton.onClick.AddListener(OnExitClick);
 			ResetProgressButton.onClick.AddListener(OnResetProgressClick);
+
+			VersionText.text = string.Format(VersionTextTemplate, Application.version);
 
 			Application.targetFrameRate = 60;
 
