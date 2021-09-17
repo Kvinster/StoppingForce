@@ -52,6 +52,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9ca6840b52640339d77df16169d40fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ThisPlayerTextColor: {r: 0.9553981, g: 1, b: 0, a: 1}
+  OtherPlayersTextColor: {r: 1, g: 1, b: 1, a: 1}
   IdText: {fileID: 8469964027052311721}
   ScoreText: {fileID: 4523630047191049587}
 --- !u!114 &7768312687094902776

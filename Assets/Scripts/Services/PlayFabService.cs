@@ -16,6 +16,8 @@ namespace SF.Services {
 
 		public static bool IsLoggedIn { get; private set; }
 
+		public static string PlayFabId { get; private set; }
+
 		public static void TryLogin() {
 			if ( _isLoginInProgress || IsLoggedIn ) {
 				return;
@@ -33,19 +35,18 @@ namespace SF.Services {
 				return Promise.Rejected(new NotLoggedInException());
 			}
 			var promise = new Promise();
-			PlayFabClientAPI.UpdatePlayerStatistics(new UpdatePlayerStatisticsRequest {
-				Statistics = new List<StatisticUpdate> {
-					new StatisticUpdate {
-						StatisticName = string.Format(LevelLeaderboardStatisticNameTemplate, levelIndex),
-						Value         = score
+			PlayFabClientAPI.UpdatePlayerStatistics(
+				new UpdatePlayerStatisticsRequest {
+					Statistics = new List<StatisticUpdate> {
+						new StatisticUpdate {
+							StatisticName = string.Format(LevelLeaderboardStatisticNameTemplate, levelIndex),
+							Value         = score
+						}
 					}
-				}
-			}, _ => {
-				promise.Resolve();
-			}, error => {
-				Debug.LogErrorFormat("PlayFabService.TrySendScore: failed sending score\n{0}", error);
-				promise.Reject(new SendScoreException(error.ToString()));
-			});
+				}, _ => { promise.Resolve(); }, error => {
+					Debug.LogErrorFormat("PlayFabService.TrySendScore: failed sending score\n{0}", error);
+					promise.Reject(new SendScoreException(error.ToString()));
+				});
 			return promise;
 		}
 
@@ -57,9 +58,7 @@ namespace SF.Services {
 			PlayFabClientAPI.GetLeaderboard(new GetLeaderboardRequest {
 				StatisticName   = string.Format(LevelLeaderboardStatisticNameTemplate, levelIndex),
 				MaxResultsCount = 10,
-			}, result => {
-				promise.Resolve(result.Leaderboard);
-			}, error => {
+			}, result => { promise.Resolve(result.Leaderboard); }, error => {
 				Debug.LogErrorFormat("PlayFabService.GetLeaderboard: failed sending score\n{0}", error);
 				promise.Resolve(null);
 			});
@@ -69,14 +68,15 @@ namespace SF.Services {
 		static void OnLogin(LoginResult loginResult) {
 			Debug.LogFormat("PlayFabService.OnLogin: login successful, id: '{0}'", loginResult.PlayFabId);
 			_isLoginInProgress = false;
-			IsLoggedIn        = true;
+			IsLoggedIn         = true;
+			PlayFabId          = loginResult.PlayFabId;
 		}
 
 		static void OnLoginError(PlayFabError error) {
 			Debug.LogErrorFormat("PlayFabService.OnLoginError: code '{0}', message '{1}'", error.Error.ToString(),
 				error.ErrorMessage);
 			_isLoginInProgress = false;
-			IsLoggedIn        = false;
+			IsLoggedIn         = false;
 		}
 	}
 }

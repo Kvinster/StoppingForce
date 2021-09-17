@@ -101,7 +101,8 @@ namespace SF.Gameplay.UI {
 					for ( i = 0; i < entries.Count; i++ ) {
 						var entry  = entries[i];
 						var record = i < _records.Count ? _records[i] : CreateRecord();
-						record.Init(entry.Position, entry.PlayFabId, entry.StatValue.ToString());
+						record.Init(entry.Position, entry.PlayFabId, entry.StatValue.ToString(),
+							entry.PlayFabId == PlayFabService.PlayFabId);
 						record.gameObject.SetActive(true);
 					}
 					for ( ; i < _records.Count; ++i ) {
