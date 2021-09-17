@@ -945,7 +945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9af1bf34bc6a4b93b190cda6d078bea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AnimSpeed: 90
+  AnimSpeed: 720
   IconTransform: {fileID: 59290808}
 --- !u!1 &596395428
 GameObject:
