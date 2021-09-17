@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTime: 0.5
+  Radius: 2.75
   SpriteRenderer: {fileID: 856007965342071507}
 --- !u!212 &856007965342071507
 SpriteRenderer:

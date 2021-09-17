@@ -4,12 +4,14 @@ using DG.Tweening;
 
 namespace SF.Gameplay {
 	[RequireComponent(typeof(Collider2D))]
+	[ExecuteInEditMode]
 	public sealed class Barrier : MonoBehaviour {
 		static readonly int Visibility = Shader.PropertyToID("_Visibility"); // float
 		static readonly int ShowPoint  = Shader.PropertyToID("_ShowPoint"); // Vector3
 
 		[Header("Parameters")]
 		public float ShowTime = 0.5f;
+		public float Radius = 5f;
 		[Header("Dependencies")]
 		public SpriteRenderer SpriteRenderer;
 
@@ -26,7 +28,21 @@ namespace SF.Gameplay {
 			}
 		}
 
+		void Update() {
+#if UNITY_EDITOR
+			if ( !Application.isPlaying ) {
+				if ( !Mathf.Approximately(transform.localScale.x, Radius) ) {
+					transform.localScale = new Vector3(Radius, Radius, 1f);
+					UnityEditor.EditorUtility.SetDirty(this);
+				}
+			}
+#endif
+		}
+
 		void Start() {
+			if ( !Application.isPlaying ) {
+				return;
+			}
 			SpriteRenderer.GetPropertyBlock(MaterialPropertyBlock);
 			MaterialPropertyBlock.SetFloat(Visibility, 0f);
 			SpriteRenderer.SetPropertyBlock(MaterialPropertyBlock);

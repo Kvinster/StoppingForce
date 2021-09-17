@@ -289,7 +289,9 @@ MonoBehaviour:
   Rigidbody: {fileID: 0}
   PushForce: 7
   Dps: 75
-  MovementForce: 1
+  CanMove: 0
+  PushMovementForce: 1
+  ManualMovementForce: 3
   LineRenderer: {fileID: 3548072642817854525}
   HitColor: {r: 0, g: 1, b: 0, a: 1}
   NoHitColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -386,6 +388,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4966833555327336559, guid: 06ea76f5705644b5c8f36aabdc5fb302,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4966833555327336559, guid: 06ea76f5705644b5c8f36aabdc5fb302,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.75
       objectReference: {fileID: 0}
     - target: {fileID: 4966833555327336559, guid: 06ea76f5705644b5c8f36aabdc5fb302,
         type: 3}
