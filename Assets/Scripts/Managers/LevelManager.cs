@@ -71,15 +71,17 @@ namespace SF.Managers {
 			}
 		}
 
-		public float TotalProgress {
+		public float TotalUnusedBoxesProgress {
 			get {
-				var res = TotalSourcesProgress;
+				var res = 0f;
 				foreach ( var boxesSource in _boxesSources ) {
 					res += boxesSource.BoxesLeft * boxesSource.TotalBoxHp;
 				}
 				return res;
 			}
 		}
+
+		public float TotalProgress => TotalSourcesProgress + TotalUnusedBoxesProgress;
 
 		public event Action<int>        OnTotalBoxesLeftChanged;
 		public event Action<int, float> OnProgressSourceProgressChanged;

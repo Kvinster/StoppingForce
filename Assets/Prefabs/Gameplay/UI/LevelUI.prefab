@@ -777,7 +777,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Boxes used: 100
+  m_text: 'Points earned: 200
+
+    unused boxes: +2000
 
     Total score: 1000.4'
   m_isRightToLeft: 0

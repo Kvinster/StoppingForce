@@ -17,7 +17,7 @@ namespace SF.Gameplay.UI {
 	public sealed class WinWindow : MonoBehaviour {
 		sealed class WinWindowDestroyedException : Exception { }
 
-		const string DescTextTemplate = "Boxes used: {0}\nTotal score: {1}";
+		const string DescTextTemplate = "Boxes used: {0}\nUnused boxes: +{1}\nTotal score: {2}";
 
 		const string LeaderboardSendingScoreText = "Sending score";
 		const string LeaderboardLoadingText      = "Loading leaderboard";
@@ -44,8 +44,8 @@ namespace SF.Gameplay.UI {
 		public void Show(LevelManager levelManager) {
 			_levelManager = levelManager;
 
-			DescText.text = string.Format(DescTextTemplate, levelManager.TotalBoxesUsed,
-				Mathf.CeilToInt(levelManager.TotalProgress));
+			DescText.text = string.Format(DescTextTemplate, Mathf.FloorToInt(levelManager.TotalSourcesProgress),
+				Mathf.FloorToInt(levelManager.TotalUnusedBoxesProgress), Mathf.CeilToInt(levelManager.TotalProgress));
 
 			ExitButton.onClick.AddListener(OnExitClick);
 			if ( LevelController.Instance.HasLevel(levelManager.LevelIndex + 1) ) {
