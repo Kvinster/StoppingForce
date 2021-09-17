@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1968,6 +1968,7 @@ GameObject:
   - component: {fileID: 1391975505}
   - component: {fileID: 1391975504}
   - component: {fileID: 1391975503}
+  - component: {fileID: 1391975502}
   m_Layer: 0
   m_Name: CancelButton
   m_TagString: Untagged
@@ -1995,6 +1996,19 @@ RectTransform:
   m_AnchoredPosition: {x: 30, y: 30}
   m_SizeDelta: {x: 325, y: 100}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1391975502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1391975500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7acc692b28d74bb3a5726d624475834f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ClickSound: {fileID: 8300000, guid: 55fddc65f330c4cfdad6b9b98ac51c30, type: 3}
 --- !u!114 &1391975503
 MonoBehaviour:
   m_ObjectHideFlags: 0

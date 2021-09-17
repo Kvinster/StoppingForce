@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+using SF.Services;
+
 namespace SF.Utils {
 	[RequireComponent(typeof(Button))]
 	public sealed class ButtonSoundPlayer : MonoBehaviour {
 		public AudioClip ClickSound;
 
-		Button      _button;
-		AudioSource _audioSource;
+		Button _button;
 
 		Button Button {
 			get {
@@ -15,15 +16,6 @@ namespace SF.Utils {
 					_button = GetComponent<Button>();
 				}
 				return _button;
-			}
-		}
-
-		AudioSource AudioSource {
-			get {
-				if ( !_audioSource ) {
-					_audioSource = gameObject.AddComponent<AudioSource>();
-				}
-				return _audioSource;
 			}
 		}
 
@@ -36,7 +28,7 @@ namespace SF.Utils {
 		}
 
 		void OnClick() {
-			AudioSource.PlayOneShot(ClickSound);
+			AudioService.PlaySound(ClickSound);
 		}
 	}
 }
