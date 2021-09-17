@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
+using System;
 using System.Collections.Generic;
 
 using SF.Controllers;
@@ -9,10 +10,13 @@ using SF.Managers;
 using SF.Services;
 using SF.Utils;
 
+using RSG;
 using TMPro;
 
 namespace SF.Gameplay.UI {
 	public sealed class WinWindow : MonoBehaviour {
+		sealed class WinWindowDestroyedException : Exception { }
+
 		const string DescTextTemplate = "Boxes used: {0}\nTotal score: {1}";
 
 		const string LeaderboardSendingScoreText = "Sending score";
@@ -82,11 +86,17 @@ namespace SF.Gameplay.UI {
 
 			PlayFabService.TrySendScore(levelManager.LevelIndex, Mathf.CeilToInt(levelManager.TotalProgress))
 				.Then(() => {
+					if ( !this ) {
+						return Promise.Rejected(new WinWindowDestroyedException());
+					}
 					MessageText.text = LeaderboardLoadingText;
 					return UnityContext.Instance.Wait(1f);
 				})
 				.Then(() => PlayFabService.GetLeaderboard(levelManager.LevelIndex))
 				.Then(entries => {
+					if ( !this ) {
+						return;
+					}
 					MessageRoot.SetActive(false);
 					RecordsRoot.SetActive(true);
 					int i;
@@ -101,7 +111,13 @@ namespace SF.Gameplay.UI {
 					}
 				})
 				.Catch(exception => {
+					if ( exception is WinWindowDestroyedException ) {
+						return;
+					}
 					Debug.LogErrorFormat(exception.Message);
+					if ( !this ) {
+						return;
+					}
 					RecordsRoot.SetActive(false);
 					MessageRoot.SetActive(true);
 					MessageText.text = LeaderboardErrorText;
