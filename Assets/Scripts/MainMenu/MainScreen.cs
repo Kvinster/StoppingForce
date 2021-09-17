@@ -11,11 +11,18 @@ namespace SF.MainMenu {
 	public sealed class MainScreen : MonoBehaviour {
 		const string VersionTextTemplate = "Version:{0}";
 
+		[Header("Parameters")]
+		public float LoadingAnimSpeed;
+		[Header("Dependencies")]
 		public Button   StartGameButton;
 		public Button   LevelSelectButton;
 		public Button   ExitButton;
 		public Button   ResetProgressButton;
 		public TMP_Text VersionText;
+		[Space]
+		public LoadingWindow LoadingWindow;
+		[Space]
+		public NameRequestWindow NameRequestWindow;
 
 		void Start() {
 			StartGameButton.onClick.AddListener(OnStartGameClick);
@@ -23,11 +30,27 @@ namespace SF.MainMenu {
 			ExitButton.onClick.AddListener(OnExitClick);
 			ResetProgressButton.onClick.AddListener(OnResetProgressClick);
 
+			NameRequestWindow.Hide();
+			LoadingWindow.Hide();
+
 			VersionText.text = string.Format(VersionTextTemplate, Application.version);
 
 			Application.targetFrameRate = 60;
 
-			PlayFabService.TryLogin();
+			if ( !PlayFabService.IsLoggedIn ) {
+				LoadingWindow.Show();
+				PlayFabService.TryLogin()
+					.Then(() => {
+						LoadingWindow.Hide();
+						if ( string.IsNullOrEmpty(PlayFabService.DisplayName) ) {
+							NameRequestWindow.Show();
+						}
+					})
+					.Catch(exception => {
+						Debug.LogErrorFormat("MainScreen.Start: login fail\n{0}", exception.Message);
+						LoadingWindow.Hide();
+					});
+			}
 		}
 
 		void OnStartGameClick() {

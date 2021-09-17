@@ -18,16 +18,45 @@ namespace SF.Services {
 
 		public static string PlayFabId { get; private set; }
 
-		public static void TryLogin() {
+		public static string DisplayName { get; private set; }
+
+		public static IPromise TryLogin() {
 			if ( _isLoginInProgress || IsLoggedIn ) {
-				return;
+				return Promise.Resolved();
 			}
+			var promise = new Promise();
+			_isLoginInProgress = true;
 			PlayFabClientAPI.LoginWithCustomID(
 				new LoginWithCustomIDRequest {
 					CustomId      = SystemInfo.deviceUniqueIdentifier,
-					CreateAccount = true
-				}, OnLogin, OnLoginError);
-			_isLoginInProgress = true;
+					CreateAccount = true,
+					InfoRequestParameters = new GetPlayerCombinedInfoRequestParams {
+						GetPlayerProfile = true
+					}
+				}, result => {
+					OnLogin(result);
+					promise.Resolve();
+				}, error => {
+					OnLoginError(error);
+					promise.Reject(new LoginFailException(error.ToString()));
+				});
+			return promise;
+		}
+
+		public static IPromise TryChangeDisplayName(string displayName) {
+			if ( !IsLoggedIn ) {
+				return Promise.Rejected(new NotLoggedInException());
+			}
+			var promise = new Promise();
+			PlayFabClientAPI.UpdateUserTitleDisplayName(
+				new UpdateUserTitleDisplayNameRequest { DisplayName = displayName },
+				result => {
+					DisplayName = result.DisplayName;
+					promise.Resolve();
+				}, error => {
+					promise.Reject(new DisplayNameChangeFailException(error.ToString()));
+				});
+			return promise;
 		}
 
 		public static IPromise TrySendScore(int levelIndex, int score) {
@@ -70,6 +99,9 @@ namespace SF.Services {
 			_isLoginInProgress = false;
 			IsLoggedIn         = true;
 			PlayFabId          = loginResult.PlayFabId;
+			if ( loginResult.InfoResultPayload.PlayerProfile != null ) {
+				DisplayName = loginResult.InfoResultPayload.PlayerProfile.DisplayName;
+			}
 		}
 
 		static void OnLoginError(PlayFabError error) {
