@@ -14,10 +14,11 @@ namespace SF.MainMenu {
 		[Header("Parameters")]
 		public float LoadingAnimSpeed;
 		[Header("Dependencies")]
-		public Button   StartGameButton;
+		public Button StartGameButton;
 		public Button   LevelSelectButton;
 		public Button   ExitButton;
 		public Button   ResetProgressButton;
+		public Button   ChangeDisplayNameButton;
 		public TMP_Text VersionText;
 		[Space]
 		public LoadingWindow LoadingWindow;
@@ -29,6 +30,7 @@ namespace SF.MainMenu {
 			LevelSelectButton.onClick.AddListener(OnLevelSelectClick);
 			ExitButton.onClick.AddListener(OnExitClick);
 			ResetProgressButton.onClick.AddListener(OnResetProgressClick);
+			ChangeDisplayNameButton.onClick.AddListener(OnChangeDisplayNameClick);
 
 			NameRequestWindow.Hide();
 			LoadingWindow.Hide();
@@ -38,6 +40,7 @@ namespace SF.MainMenu {
 			Application.targetFrameRate = 60;
 
 			if ( !PlayFabService.IsLoggedIn ) {
+				ChangeDisplayNameButton.gameObject.SetActive(false);
 				LoadingWindow.Show();
 				PlayFabService.TryLogin()
 					.Then(() => {
@@ -45,6 +48,7 @@ namespace SF.MainMenu {
 						if ( string.IsNullOrEmpty(PlayFabService.DisplayName) ) {
 							NameRequestWindow.Show();
 						}
+						ChangeDisplayNameButton.gameObject.SetActive(true);
 					})
 					.Catch(exception => {
 						Debug.LogErrorFormat("MainScreen.Start: login fail\n{0}", exception.Message);
@@ -75,6 +79,10 @@ namespace SF.MainMenu {
 
 		void OnResetProgressClick() {
 			GameState.Instance.Reset();
+		}
+
+		void OnChangeDisplayNameClick() {
+			NameRequestWindow.Show();
 		}
 	}
 }
