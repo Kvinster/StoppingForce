@@ -35,6 +35,8 @@ namespace SF.MainMenu {
 			NameRequestWindow.Hide();
 			LoadingWindow.Hide();
 
+			UpdateLevelSelectButton();
+
 			VersionText.text = string.Format(VersionTextTemplate, Application.version);
 
 			Application.targetFrameRate = 60;
@@ -55,6 +57,10 @@ namespace SF.MainMenu {
 						LoadingWindow.Hide();
 					});
 			}
+		}
+
+		void UpdateLevelSelectButton() {
+			LevelSelectButton.interactable = GameState.Instance.MaxLevelIndex > 0;
 		}
 
 		void OnStartGameClick() {
@@ -79,6 +85,7 @@ namespace SF.MainMenu {
 
 		void OnResetProgressClick() {
 			GameState.Instance.Reset();
+			UpdateLevelSelectButton();
 		}
 
 		void OnChangeDisplayNameClick() {
