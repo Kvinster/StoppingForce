@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Tutorial
+    uniqueID: 3302247581
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

@@ -4,8 +4,9 @@ using SF.Utils;
 
 namespace SF.State {
 	public sealed class GameState : Singleton<GameState> {
-		const string NextLevelIndexKey = "_NextLevelIndex";
-		const string MaxLevelIndexKey  = "_MaxLevelIndex";
+		const string NextLevelIndexKey   = "_NextLevelIndex";
+		const string MaxLevelIndexKey    = "_MaxLevelIndex";
+		const string TutorialKeyTemplate = "_Tutorial_{0}";
 
 		public int NextLevelIndex {
 			get => PlayerPrefs.GetInt(NextLevelIndexKey);
@@ -20,6 +21,14 @@ namespace SF.State {
 		public int MaxLevelIndex {
 			get => PlayerPrefs.GetInt(MaxLevelIndexKey);
 			set => PlayerPrefs.SetInt(MaxLevelIndexKey, value);
+		}
+
+		public bool IsTutorialShown(string tutorialId) {
+			return PlayerPrefs.HasKey(string.Format(TutorialKeyTemplate, tutorialId));
+		}
+
+		public void SetTutorialShown(string tutorialId) {
+			PlayerPrefs.SetInt(string.Format(TutorialKeyTemplate, tutorialId), 1);
 		}
 
 		public void Reset() {
