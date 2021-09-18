@@ -1319,15 +1319,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spawner
       objectReference: {fileID: 0}
-    - target: {fileID: 8497520112452720862, guid: 986521c25d39e41daa993bcf72b7d346,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 8497520112452720862, guid: 986521c25d39e41daa993bcf72b7d346,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2.75
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 986521c25d39e41daa993bcf72b7d346, type: 3}
