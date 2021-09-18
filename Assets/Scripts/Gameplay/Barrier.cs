@@ -34,6 +34,11 @@ namespace SF.Gameplay {
 				if ( !Mathf.Approximately(transform.localScale.x, Radius) ) {
 					transform.localScale = new Vector3(Radius, Radius, 1f);
 					UnityEditor.EditorUtility.SetDirty(this);
+					var mpb = new MaterialPropertyBlock();
+					SpriteRenderer.GetPropertyBlock(mpb);
+					mpb.SetFloat(Visibility, 1f);
+					mpb.SetVector(ShowPoint, transform.position);
+					SpriteRenderer.SetPropertyBlock(mpb);
 				}
 			}
 #endif
@@ -41,6 +46,11 @@ namespace SF.Gameplay {
 
 		void Start() {
 			if ( !Application.isPlaying ) {
+				var mpb = new MaterialPropertyBlock();
+				SpriteRenderer.GetPropertyBlock(mpb);
+				mpb.SetFloat(Visibility, 1f);
+				mpb.SetVector(ShowPoint, transform.position);
+				SpriteRenderer.SetPropertyBlock(mpb);
 				return;
 			}
 			SpriteRenderer.GetPropertyBlock(MaterialPropertyBlock);
