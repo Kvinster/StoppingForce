@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae134a643f6b41598a686116b050dfa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeathTime: 3
+  Dps: 100
 --- !u!212 &674044358352155733
 SpriteRenderer:
   m_ObjectHideFlags: 0
