@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using SF.Gameplay;
+using SF.LevelSelect;
 
 namespace SF.Tutorial {
 	public sealed class SimpleTutorial : BaseTutorial {
@@ -11,6 +12,10 @@ namespace SF.Tutorial {
 		bool _canHide;
 
 		protected override void InitInternal(GameStarter _) {
+			_showTimer = 0f;
+		}
+
+		protected override void InitInternal(LevelSelectStarter starter) {
 			_showTimer = 0f;
 		}
 

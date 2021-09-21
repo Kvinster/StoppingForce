@@ -100,20 +100,23 @@ namespace SF.Gameplay {
 				_hit = Physics2D.Raycast(barrelPos, (mousePos - barrelPos).normalized, 1000f,
 					LayerMask.GetMask("Box", "Default"));
 				var hit = _hit.Value;
-				if ( !hit.rigidbody ) {
-					if ( CanMove && Rigidbody && hit.collider ) {
+				if ( !hit.collider ) {
+					return;
+				}
+				var box = hit.collider.gameObject.GetComponent<BaseBox>();
+				if ( !box ) {
+					if ( CanMove && Rigidbody ) {
 						Rigidbody.AddForceAtPosition((Rigidbody.position - hit.point).normalized * PushMovementForce,
 							Rigidbody.ClosestPoint(hit.point));
 					}
 					return;
 				}
-
-				hit.rigidbody.AddForceAtPosition((hit.point - (Vector2) barrelPos).normalized * PushForce, hit.point,
-					ForceMode2D.Force);
-				var box = hit.rigidbody.gameObject.GetComponent<BaseBox>();
-				if ( box ) {
-					box.TakeDamage(Dps * Time.fixedDeltaTime);
+				if ( hit.rigidbody ) {
+					hit.rigidbody.AddForceAtPosition((hit.point - (Vector2) barrelPos).normalized * PushForce,
+						hit.point,
+						ForceMode2D.Force);
 				}
+				box.TakeDamage(Dps * Time.fixedDeltaTime);
 			} else {
 				_hit = null;
 			}

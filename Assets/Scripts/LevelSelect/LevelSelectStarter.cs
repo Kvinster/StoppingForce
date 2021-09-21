@@ -9,6 +9,7 @@ using SF.Gameplay;
 using SF.Managers;
 using SF.Services;
 using SF.State;
+using SF.Tutorial;
 
 namespace SF.LevelSelect {
 	public sealed class LevelSelectStarter : MonoBehaviour {
@@ -24,6 +25,11 @@ namespace SF.LevelSelect {
 		[Header("Dependencies")]
 		public Gun Gun;
 		public GameplayCameraController GameplayCameraController;
+		[Space]
+		public LevelSelectBox MenuBox;
+		public LevelSelectMenuZone MenuZone;
+		[Space]
+		public BaseTutorial Tutorial;
 		[Space]
 		public Transform CeilingTransform;
 		public Transform  FloorTransform;
@@ -41,6 +47,11 @@ namespace SF.LevelSelect {
 
 			Gun.Init(this);
 			GameplayCameraController.Init(this);
+
+			MenuBox.Init(BoxStartHp, false);
+			MenuZone.OnGunEnter += LoadMenu;
+
+			Tutorial.Init(this);
 
 			if ( totalLevels > MaxLevelsBeforeExpansion ) {
 				throw new NotImplementedException(); // TODO: implement, duh
@@ -62,6 +73,10 @@ namespace SF.LevelSelect {
 		void LoadLevel(int levelIndex) {
 			LevelController.Instance.StartLevel(levelIndex);
 			SceneService.LoadLevel(levelIndex);
+		}
+
+		void LoadMenu() {
+			SceneService.LoadMainMenu();
 		}
 	}
 }
