@@ -1,5 +1,6 @@
 using UnityEngine;
 
+using System;
 using System.Collections.Generic;
 
 using SF.Services.Exceptions;
@@ -10,11 +11,18 @@ using RSG;
 
 namespace SF.Services {
 	public static class PlayFabService {
+		public const string GuidKey = "_LoginGuid";
+
 		const string LevelLeaderboardStatisticNameTemplate = "Level_{0}_Leaderboard";
 
 		static bool _isLoginInProgress;
 
-		public static bool IsLoggedIn { get; private set; }
+		static string Guid {
+			get => PlayerPrefs.GetString(GuidKey);
+			set => PlayerPrefs.SetString(GuidKey, value);
+		}
+
+		public static bool IsLoggedIn => PlayFabClientAPI.IsClientLoggedIn();
 
 		public static string PlayFabId { get; private set; }
 
@@ -26,9 +34,12 @@ namespace SF.Services {
 			}
 			var promise = new Promise();
 			_isLoginInProgress = true;
+			if ( string.IsNullOrEmpty(Guid) ) {
+				Guid = new Guid().ToString();
+			}
 			PlayFabClientAPI.LoginWithCustomID(
 				new LoginWithCustomIDRequest {
-					CustomId      = SystemInfo.deviceUniqueIdentifier,
+					CustomId      = Guid,
 					CreateAccount = true,
 					InfoRequestParameters = new GetPlayerCombinedInfoRequestParams {
 						GetPlayerProfile = true
@@ -100,7 +111,6 @@ namespace SF.Services {
 		static void OnLogin(LoginResult loginResult) {
 			Debug.LogFormat("PlayFabService.OnLogin: login successful, id: '{0}'", loginResult.PlayFabId);
 			_isLoginInProgress = false;
-			IsLoggedIn         = true;
 			PlayFabId          = loginResult.PlayFabId;
 			if ( loginResult.InfoResultPayload.PlayerProfile != null ) {
 				DisplayName = loginResult.InfoResultPayload.PlayerProfile.DisplayName;
@@ -111,7 +121,6 @@ namespace SF.Services {
 			Debug.LogErrorFormat("PlayFabService.OnLoginError: code '{0}', message '{1}'", error.Error.ToString(),
 				error.ErrorMessage);
 			_isLoginInProgress = false;
-			IsLoggedIn         = false;
 		}
 	}
 }

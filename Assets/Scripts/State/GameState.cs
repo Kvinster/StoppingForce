@@ -1,5 +1,6 @@
 using UnityEngine;
 
+using SF.Services;
 using SF.Utils;
 
 namespace SF.State {
@@ -32,7 +33,13 @@ namespace SF.State {
 		}
 
 		public void Reset() {
+			var loginGuid = PlayerPrefs.HasKey(PlayFabService.GuidKey)
+				? PlayerPrefs.GetString(PlayFabService.GuidKey)
+				: null;
 			PlayerPrefs.DeleteAll();
+			if ( !string.IsNullOrEmpty(loginGuid) ) {
+				PlayerPrefs.SetString(PlayFabService.GuidKey, loginGuid);
+			}
 		}
 	}
 }
