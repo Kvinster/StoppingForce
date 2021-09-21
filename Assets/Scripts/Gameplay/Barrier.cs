@@ -1,5 +1,7 @@
 using UnityEngine;
 
+using System.Collections.Generic;
+
 using DG.Tweening;
 
 namespace SF.Gameplay {
@@ -14,6 +16,8 @@ namespace SF.Gameplay {
 		public float Radius = 5f;
 		[Header("Dependencies")]
 		public SpriteRenderer SpriteRenderer;
+
+		readonly HashSet<GameplayBox> _activeBoxes = new HashSet<GameplayBox>();
 
 		Tween _showAnim;
 
@@ -35,15 +39,17 @@ namespace SF.Gameplay {
 		void Update() {
 #if UNITY_EDITOR
 			if ( !Application.isPlaying ) {
+				var mpb = new MaterialPropertyBlock();
+				SpriteRenderer.GetPropertyBlock(mpb);
 				if ( !Mathf.Approximately(transform.localScale.x, Radius) ) {
 					transform.localScale = new Vector3(Radius, Radius, 1f);
 					UnityEditor.EditorUtility.SetDirty(this);
-					var mpb = new MaterialPropertyBlock();
-					SpriteRenderer.GetPropertyBlock(mpb);
 					mpb.SetFloat(Visibility, 1f);
-					mpb.SetVector(ShowPoint, transform.position);
-					SpriteRenderer.SetPropertyBlock(mpb);
 				}
+				if ( (Vector3)mpb.GetVector(ShowPoint) != transform.position ) {
+					mpb.SetVector(ShowPoint, transform.position);
+				}
+				SpriteRenderer.SetPropertyBlock(mpb);
 			}
 #endif
 		}
@@ -67,6 +73,7 @@ namespace SF.Gameplay {
 			if ( !box ) {
 				return;
 			}
+			_activeBoxes.Add(box);
 			SpriteRenderer.GetPropertyBlock(MaterialPropertyBlock);
 			MaterialPropertyBlock.SetVector(ShowPoint, other.contacts[0].point);
 			SpriteRenderer.SetPropertyBlock(MaterialPropertyBlock);
@@ -78,6 +85,34 @@ namespace SF.Gameplay {
 					MaterialPropertyBlock.SetFloat(Visibility, x);
 					SpriteRenderer.SetPropertyBlock(MaterialPropertyBlock);
 				}, 1f, ShowTime / 2f)).SetEase(Ease.InSine)
+				.OnComplete(TryHide);
+		}
+
+		void OnCollisionStay(Collision other) {
+			var box = other.gameObject.GetComponent<GameplayBox>();
+			if ( !box ) {
+				return;
+			}
+			SpriteRenderer.GetPropertyBlock(MaterialPropertyBlock);
+			MaterialPropertyBlock.SetVector(ShowPoint, other.contacts[0].point);
+			SpriteRenderer.SetPropertyBlock(MaterialPropertyBlock);
+		}
+
+		void OnCollisionExit2D(Collision2D other) {
+			var box = other.gameObject.GetComponent<GameplayBox>();
+			if ( !box ) {
+				return;
+			}
+			_activeBoxes.Remove(box);
+			TryHide();
+		}
+
+		void TryHide() {
+			if ( (_activeBoxes.Count > 0) || ((_showAnim != null) && _showAnim.IsActive() && _showAnim.IsPlaying()) ) {
+				return;
+			}
+			var visibility = 1f;
+			_showAnim = DOTween.Sequence()
 				.Append(DOTween.To(() => visibility, x => {
 					visibility = x;
 					MaterialPropertyBlock.SetFloat(Visibility, x);
