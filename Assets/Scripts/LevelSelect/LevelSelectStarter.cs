@@ -23,6 +23,7 @@ namespace SF.LevelSelect {
 		public float BoxStartHp = 100;
 		[Header("Dependencies")]
 		public Gun Gun;
+		public GameplayCameraController GameplayCameraController;
 		[Space]
 		public Transform CeilingTransform;
 		public Transform  FloorTransform;
@@ -39,6 +40,7 @@ namespace SF.LevelSelect {
 			var maxLevelIndex = GameState.Instance.MaxLevelIndex;
 
 			Gun.Init(this);
+			GameplayCameraController.Init(this);
 
 			if ( totalLevels > MaxLevelsBeforeExpansion ) {
 				throw new NotImplementedException(); // TODO: implement, duh

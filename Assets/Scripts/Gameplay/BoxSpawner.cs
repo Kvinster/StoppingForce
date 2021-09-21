@@ -8,6 +8,7 @@ using SF.Managers;
 using Random = UnityEngine.Random;
 
 namespace SF.Gameplay {
+	[ExecuteInEditMode]
 	public sealed class BoxSpawner : GameComponent, IBoxesSource {
 		[Header("Parameters")]
 		public int   TotalBoxesSerialized;
@@ -40,6 +41,17 @@ namespace SF.Gameplay {
 		}
 
 		void Update() {
+			if ( !Application.isPlaying ) {
+#if UNITY_EDITOR
+				var diff = (PushDirection.position - SpawnOrigin.position).normalized;
+				var rotZ = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+				if ( !Mathf.Approximately(ViewTransform.rotation.eulerAngles.z, rotZ - 90) ) {
+					ViewTransform.rotation = Quaternion.Euler(0, 0, rotZ - 90);
+					UnityEditor.EditorUtility.SetDirty(this);
+				}
+#endif
+				return;
+			}
 			if ( (_boxCount < TotalBoxes) && Input.GetKeyDown(KeyCode.Space) ) {
 				SpawnBox();
 			}

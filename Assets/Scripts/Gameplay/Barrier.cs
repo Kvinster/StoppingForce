@@ -28,6 +28,10 @@ namespace SF.Gameplay {
 			}
 		}
 
+		void OnDestroy() {
+			_showAnim?.Kill();
+		}
+
 		void Update() {
 #if UNITY_EDITOR
 			if ( !Application.isPlaying ) {

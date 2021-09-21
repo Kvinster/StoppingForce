@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using SF.Controllers;
 using SF.Gameplay;
 using SF.Utils;
 
@@ -36,16 +37,6 @@ namespace SF.Managers {
 					return false;
 				}
 				return (_stationaryBoxesTimer > StationaryBoxesTime);
-			}
-		}
-
-		public int TotalBoxes {
-			get {
-				var res = 0;
-				foreach ( var boxesSource in _boxesSources ) {
-					res += boxesSource.TotalBoxes;
-				}
-				return res;
 			}
 		}
 
@@ -85,6 +76,7 @@ namespace SF.Managers {
 
 		public event Action<int>        OnTotalBoxesLeftChanged;
 		public event Action<int, float> OnProgressSourceProgressChanged;
+		public event Action<bool>       OnLevelFinished;
 
 		public LevelManager(int levelIndex) {
 			LevelIndex = levelIndex;
@@ -129,6 +121,15 @@ namespace SF.Managers {
 		public void OnBoxSpawned() {
 			++TotalBoxesUsed;
 			OnTotalBoxesLeftChanged?.Invoke(TotalBoxesLeft);
+		}
+
+		public void FinishLevel(bool win) {
+			if ( win ) {
+				LevelController.Instance.OnLevelWon();
+			} else {
+				LevelController.Instance.OnLevelLost();
+			}
+			OnLevelFinished?.Invoke(win);
 		}
 
 		void Update() {

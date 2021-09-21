@@ -115,7 +115,7 @@ namespace SF.Gameplay.UI {
 				goalAnim?.Kill(true);
 			}
 			_pauseManager.PauseBy(this);
-			LevelController.Instance.OnLevelWon();
+			_levelManager.FinishLevel(true);
 			WinWindow.Show(_levelManager);
 		}
 
@@ -124,7 +124,7 @@ namespace SF.Gameplay.UI {
 				goalAnim?.Kill(true);
 			}
 			_pauseManager.PauseBy(this);
-			LevelController.Instance.OnLevelLost();
+			_levelManager.FinishLevel(false);
 			LevelController.Instance.StartLevel(_levelManager.LevelIndex);
 			SceneService.LoadLevel(_levelManager.LevelIndex);
 		}
@@ -134,7 +134,7 @@ namespace SF.Gameplay.UI {
 				goalAnim?.Kill(true);
 			}
 			_pauseManager.PauseBy(this);
-			LevelController.Instance.OnLevelLost();
+			_levelManager.FinishLevel(false);
 			SceneService.LoadMainMenu();
 		}
 	}

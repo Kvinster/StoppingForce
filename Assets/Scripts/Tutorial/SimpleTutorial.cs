@@ -1,21 +1,16 @@
 using UnityEngine;
 
-using SF.State;
+using SF.Gameplay;
 
 namespace SF.Tutorial {
-	public sealed class SimpleTutorial : MonoBehaviour {
-		public float  MinShowTime = 2f;
-		public string Id;
+	public sealed class SimpleTutorial : BaseTutorial {
+		public float MinShowTime = 2f;
 
 		float _showTimer;
 
 		bool _canHide;
 
-		void Start() {
-			if ( GameState.Instance.IsTutorialShown(Id) ) {
-				Hide();
-				return;
-			}
+		protected override void InitInternal(GameStarter _) {
 			_showTimer = 0f;
 		}
 
@@ -30,14 +25,6 @@ namespace SF.Tutorial {
 				SetShown();
 				Hide();
 			}
-		}
-
-		void SetShown() {
-			GameState.Instance.SetTutorialShown(Id);
-		}
-
-		void Hide() {
-			Destroy(gameObject);
 		}
 	}
 }

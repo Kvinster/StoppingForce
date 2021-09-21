@@ -17,8 +17,8 @@ TagManager:
   - GoalTrigger
   - Barrier
   - Gun
-  - 
-  - 
+  - Button
+  - ButtonTrigger
   - 
   - 
   - 
@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2801588255
+    locked: 0
   - name: Tutorial
     uniqueID: 3302247581
     locked: 0
