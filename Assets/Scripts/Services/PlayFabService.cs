@@ -7,6 +7,7 @@ using SF.Services.Exceptions;
 
 using PlayFab;
 using PlayFab.ClientModels;
+
 using RSG;
 
 namespace SF.Services {
@@ -36,14 +37,16 @@ namespace SF.Services {
 			_isLoginInProgress = true;
 			if ( string.IsNullOrEmpty(Guid) ) {
 				Guid = new Guid().ToString();
+				Debug.LogFormat("PlayFabService.TryLogin: created guid '{0}'", Guid);
+			} else {
+				Debug.LogFormat("PlayFabService.TryLogin: guid already exists '{0}'", Guid);
 			}
+			Debug.LogFormat("PlayFabService.TryLogin: logging in with guid '{0}'", Guid);
 			PlayFabClientAPI.LoginWithCustomID(
 				new LoginWithCustomIDRequest {
-					CustomId      = Guid,
-					CreateAccount = true,
-					InfoRequestParameters = new GetPlayerCombinedInfoRequestParams {
-						GetPlayerProfile = true
-					}
+					CustomId              = Guid,
+					CreateAccount         = true,
+					InfoRequestParameters = new GetPlayerCombinedInfoRequestParams { GetPlayerProfile = true }
 				}, result => {
 					OnLogin(result);
 					promise.Resolve();
@@ -64,9 +67,7 @@ namespace SF.Services {
 				result => {
 					DisplayName = result.DisplayName;
 					promise.Resolve();
-				}, error => {
-					promise.Reject(new DisplayNameChangeFailException(error.ToString()));
-				});
+				}, error => { promise.Reject(new DisplayNameChangeFailException(error.ToString())); });
 			return promise;
 		}
 
