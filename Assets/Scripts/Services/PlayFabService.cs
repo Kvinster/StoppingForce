@@ -22,7 +22,7 @@ namespace SF.Services {
 			set => PlayerPrefs.SetString(GuidKey, value);
 		}
 
-		public static bool IsLoggedIn => PlayFabClientAPI.IsClientLoggedIn();
+		public static bool IsLoggedIn { get; private set; }
 
 		public static string PlayFabId { get; private set; }
 
@@ -111,6 +111,7 @@ namespace SF.Services {
 		static void OnLogin(LoginResult loginResult) {
 			Debug.LogFormat("PlayFabService.OnLogin: login successful, id: '{0}'", loginResult.PlayFabId);
 			_isLoginInProgress = false;
+			IsLoggedIn         = true;
 			PlayFabId          = loginResult.PlayFabId;
 			if ( loginResult.InfoResultPayload.PlayerProfile != null ) {
 				DisplayName = loginResult.InfoResultPayload.PlayerProfile.DisplayName;
@@ -121,6 +122,7 @@ namespace SF.Services {
 			Debug.LogErrorFormat("PlayFabService.OnLoginError: code '{0}', message '{1}'", error.Error.ToString(),
 				error.ErrorMessage);
 			_isLoginInProgress = false;
+			IsLoggedIn         = false;
 		}
 	}
 }
