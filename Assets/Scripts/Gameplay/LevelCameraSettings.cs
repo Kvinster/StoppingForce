@@ -12,6 +12,7 @@ namespace SF.Gameplay {
 		public Vector2 CameraVerticalZone   = Vector2.zero;
 		public Vector2 CameraCentralPos     = Vector2.zero;
 		public Vector2 CameraStartPos       = Vector2.zero;
+		public bool    PlayCameraAnim       = true;
 
 		public float   StartSize      => StartCameraSize;
 		public float   MinSize        => MinCameraSize;
@@ -20,6 +21,7 @@ namespace SF.Gameplay {
 		public Vector2 VerticalZone   => CameraVerticalZone;
 		public Vector2 CentralPos     => CameraCentralPos;
 		public Vector2 StartPos       => CameraStartPos;
+		public bool    PlayAnim       => PlayCameraAnim;
 
 		void OnEnable() {
 			Assert.IsFalse(Instance);

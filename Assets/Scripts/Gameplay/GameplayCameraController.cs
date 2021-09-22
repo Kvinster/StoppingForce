@@ -7,6 +7,8 @@ using SF.LevelSelect;
 using SF.Managers;
 using SF.Utils;
 
+using DG.Tweening;
+
 using JetBrains.Annotations;
 
 using NaughtyAttributes;
@@ -21,9 +23,10 @@ namespace SF.Gameplay {
 			public Vector2 VerticalZone   { get; }
 			public Vector2 CentralPos     { get; }
 			public Vector2 StartPos       { get; }
+			public bool    PlayAnim       { get; }
 
 			public CameraSettings(float startSize, float minSize, float maxSize, Vector2 horizontalZone,
-				Vector2 verticalZone, Vector2 centralPos, Vector2 startPos) {
+				Vector2 verticalZone, Vector2 centralPos, Vector2 startPos, bool playAnim) {
 				StartSize      = startSize;
 				MinSize        = minSize;
 				MaxSize        = maxSize;
@@ -31,11 +34,14 @@ namespace SF.Gameplay {
 				VerticalZone   = verticalZone;
 				CentralPos     = centralPos;
 				StartPos       = startPos;
+				PlayAnim       = playAnim;
 			}
 		}
 
+		const float CameraSizeAnimDuration = 1f;
+
 		static CameraSettings DefaultCameraSettings =>
-			new CameraSettings(5f, 5f, 5f, Vector2.zero, Vector2.zero, Vector2.zero,  Vector2.zero);
+			new CameraSettings(5f, 5f, 5f, Vector2.zero, Vector2.zero, Vector2.zero,  Vector2.zero, true);
 
 		public Camera Camera;
 		public float  ScrollSpeed = 1f;
@@ -49,8 +55,10 @@ namespace SF.Gameplay {
 
 		Vector2 _prevMousePosition;
 
+		Tween _sizeAnim;
+
 		void Update() {
-			if ( _pauseManager.IsPaused ) {
+			if ( _pauseManager.IsPaused || (_sizeAnim?.IsActive() ?? false) ) {
 				return;
 			}
 			var mouseScrollDelta = Input.mouseScrollDelta;
@@ -91,6 +99,7 @@ namespace SF.Gameplay {
 				_curSettings = DefaultCameraSettings;
 			}
 			Setup(_curSettings);
+			TryStartSizeAnim();
 
 			_adjustedMaxSize = CameraAspectHelper.GetAdjustedSize(_curSettings.MaxSize, Camera.aspect);
 			_adjustedMinSize = CameraAspectHelper.GetAdjustedSize(_curSettings.MinSize, Camera.aspect);
@@ -100,6 +109,16 @@ namespace SF.Gameplay {
 			Assert.IsNotNull(settings);
 			Camera.transform.position = new Vector3(settings.StartPos.x, settings.StartPos.y, -10f);
 			CameraAspectHelper.SetAdjustedSize(Camera, settings.StartSize);
+		}
+
+		void TryStartSizeAnim() {
+			if ( !_curSettings.PlayAnim ) {
+				return;
+			}
+			Camera.orthographicSize = 0.05f;
+			_sizeAnim = Camera.DOOrthoSize(_curSettings.StartSize, CameraSizeAnimDuration)
+				.SetEase(Ease.OutSine)
+				.OnComplete(() => _sizeAnim = null);
 		}
 
 		#region Editor

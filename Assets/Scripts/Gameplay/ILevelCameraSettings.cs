@@ -9,5 +9,6 @@ namespace SF.Gameplay {
 		Vector2 VerticalZone   { get; }
 		Vector2 CentralPos     { get; }
 		Vector2 StartPos       { get; }
+		bool    PlayAnim       { get; }
 	}
 }
