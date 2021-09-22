@@ -2,12 +2,19 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using SF.Services;
+using SF.Services.Exceptions;
+
+using PlayFab;
 
 using TMPro;
 
 namespace SF.MainMenu {
 	public sealed class NameRequestWindow : MonoBehaviour {
+		const string NameNotAvailableErrorText = "Name is already taken";
+
 		public TMP_InputField InputField;
+		public GameObject     ErrorTextRoot;
+		public TMP_Text       ErrorText;
 		public Button         CancelButton;
 		public Button         AcceptButton;
 		[Space]
@@ -21,11 +28,17 @@ namespace SF.MainMenu {
 		public void Show() {
 			InputField.text = PlayFabService.DisplayName;
 
+			InputField.onValueChanged.AddListener(OnInputFieldValueChanged);
+
+			ErrorTextRoot.SetActive(false);
+
 			gameObject.SetActive(true);
 		}
 
 		public void Hide() {
 			gameObject.SetActive(false);
+
+			InputField.onValueChanged.RemoveListener(OnInputFieldValueChanged);
 		}
 
 		void OnAcceptClick() {
@@ -38,15 +51,29 @@ namespace SF.MainMenu {
 					LoadingWindow.Hide();
 					Hide();
 				})
-				.Catch(exception => {
-					Debug.LogException(exception);
+				.Catch(e => {
 					LoadingWindow.Hide();
-					Hide();
+					if ( e is DisplayNameChangeFailException exception ) {
+						if ( exception.ErrorCode == PlayFabErrorCode.NameNotAvailable ) {
+							ErrorTextRoot.SetActive(true);
+							ErrorText.text = NameNotAvailableErrorText;
+						} else {
+							Debug.LogException(e);
+							Hide();
+						}
+					} else {
+						Debug.LogException(e);
+						Hide();
+					}
 				});
 		}
 
 		void OnCancelClick() {
 			Hide();
+		}
+
+		void OnInputFieldValueChanged(string _) {
+			ErrorTextRoot.SetActive(false);
 		}
 	}
 }

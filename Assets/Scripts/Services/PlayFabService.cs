@@ -62,7 +62,7 @@ namespace SF.Services {
 				result => {
 					DisplayName = result.DisplayName;
 					promise.Resolve();
-				}, error => { promise.Reject(new DisplayNameChangeFailException(error.ToString())); });
+				}, error => { promise.Reject(new DisplayNameChangeFailException(error.Error, error.ToString())); });
 			return promise;
 		}
 
