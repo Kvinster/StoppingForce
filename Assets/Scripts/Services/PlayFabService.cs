@@ -1,6 +1,5 @@
 using UnityEngine;
 
-using System;
 using System.Collections.Generic;
 
 using SF.Services.Exceptions;
@@ -23,7 +22,7 @@ namespace SF.Services {
 			set => PlayerPrefs.SetString(GuidKey, value);
 		}
 
-		public static bool IsLoggedIn { get; private set; }
+		public static bool IsLoggedIn => PlayFabClientAPI.IsClientLoggedIn();
 
 		public static string PlayFabId { get; private set; }
 
@@ -36,12 +35,8 @@ namespace SF.Services {
 			var promise = new Promise();
 			_isLoginInProgress = true;
 			if ( string.IsNullOrEmpty(Guid) ) {
-				Guid = new Guid().ToString();
-				Debug.LogFormat("PlayFabService.TryLogin: created guid '{0}'", Guid);
-			} else {
-				Debug.LogFormat("PlayFabService.TryLogin: guid already exists '{0}'", Guid);
+				Guid = System.Guid.NewGuid().ToString();
 			}
-			Debug.LogFormat("PlayFabService.TryLogin: logging in with guid '{0}'", Guid);
 			PlayFabClientAPI.LoginWithCustomID(
 				new LoginWithCustomIDRequest {
 					CustomId              = Guid,
@@ -112,7 +107,6 @@ namespace SF.Services {
 		static void OnLogin(LoginResult loginResult) {
 			Debug.LogFormat("PlayFabService.OnLogin: login successful, id: '{0}'", loginResult.PlayFabId);
 			_isLoginInProgress = false;
-			IsLoggedIn         = true;
 			PlayFabId          = loginResult.PlayFabId;
 			if ( loginResult.InfoResultPayload.PlayerProfile != null ) {
 				DisplayName = loginResult.InfoResultPayload.PlayerProfile.DisplayName;
@@ -123,7 +117,6 @@ namespace SF.Services {
 			Debug.LogErrorFormat("PlayFabService.OnLoginError: code '{0}', message '{1}'", error.Error.ToString(),
 				error.ErrorMessage);
 			_isLoginInProgress = false;
-			IsLoggedIn         = false;
 		}
 	}
 }
