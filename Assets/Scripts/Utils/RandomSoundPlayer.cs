@@ -4,6 +4,7 @@ using SF.Services;
 
 namespace SF.Utils {
 	public sealed class RandomSoundPlayer : MonoBehaviour {
+		public float       VolumeScale = 1f;
 		public AudioClip[] Sounds;
 
 		public void Play() {

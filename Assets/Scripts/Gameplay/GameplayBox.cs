@@ -11,18 +11,12 @@ namespace SF.Gameplay {
 
 		public bool IsStationary { get; private set; }
 
-		public event Action<GameplayBox> OnDestroyed;
-
 		void OnEnable() {
 			Instances.Add(this);
 		}
 
 		void OnDisable() {
 			Instances.Remove(this);
-		}
-
-		void OnDestroy() {
-			OnDestroyed?.Invoke(this);
 		}
 
 		void FixedUpdate() {

@@ -1,9 +1,9 @@
-using System;
-
 using UnityEngine;
 
+using System;
 using System.Collections.Generic;
 
+using SF.Common;
 using SF.Managers;
 using SF.Utils;
 
@@ -69,7 +69,7 @@ namespace SF.Gameplay {
 			}
 			_activeBoxes.Add(box);
 			box.OnCurHpChanged += OnBoxHpChanged;
-			box.OnDestroyed    += OnBoxDestroyed;
+			box.OnDestroyed += OnDestroyed;
 
 			_needUpdateTotalProgress = true;
 		}
@@ -81,14 +81,14 @@ namespace SF.Gameplay {
 			}
 			_activeBoxes.Remove(box);
 			box.OnCurHpChanged -= OnBoxHpChanged;
-			box.OnDestroyed    -= OnBoxDestroyed;
+			box.OnDestroyed    -= OnDestroyed;
 
 			_needUpdateTotalProgress = true;
 		}
 
-		void OnBoxDestroyed(GameplayBox box) {
+		void OnDestroyed(BaseBox box) {
 			box.OnCurHpChanged -= OnBoxHpChanged;
-			box.OnDestroyed    -= OnBoxDestroyed;
+			box.OnDestroyed    -= OnDestroyed;
 		}
 
 		void OnBoxHpChanged(float boxHp) {

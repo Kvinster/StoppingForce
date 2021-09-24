@@ -64,7 +64,7 @@ namespace SF.LevelSelect {
 				Assert.IsTrue(levelComplex);
 				levelComplex.Box.Init(BoxStartHp, i > maxLevelIndex);
 				var levelIndex = i;
-				levelComplex.Box.OnDestroyed += () => LoadLevel(levelIndex);
+				levelComplex.Box.OnDestroyed += _ => LoadLevel(levelIndex);
 				levelComplex.LevelLabel.Init(i, i > maxLevelIndex);
 				levelComplex.BoxJoint.connectedAnchor = levelComplex.ConnectionPos.position;
 			}

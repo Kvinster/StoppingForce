@@ -1,12 +1,8 @@
-using System;
-
 using SF.Common;
 
 namespace SF.LevelSelect {
 	public sealed class LevelSelectBox : BaseBox {
 		bool _isIndestructible;
-
-		public event Action OnDestroyed;
 
 		public void Init(float startHp, bool isIndestructible) {
 			_isIndestructible = isIndestructible;
@@ -19,11 +15,6 @@ namespace SF.LevelSelect {
 				return;
 			}
 			base.TakeDamage(damage);
-		}
-
-		public override void Die() {
-			base.Die();
-			OnDestroyed?.Invoke();
 		}
 
 		protected override void UpdateText() {

@@ -30,9 +30,9 @@ namespace SF.Services {
 			}
 		}
 
-		public static void PlaySound(AudioClip clip) {
+		public static void PlaySound(AudioClip clip, float volumeScale = 1f) {
 			Assert.IsTrue(clip);
-			OneShotAudioSource.PlayOneShot(clip);
+			OneShotAudioSource.PlayOneShot(clip, volumeScale);
 		}
 
 		public static void PlayInPool(object key, AudioClip clip, bool loop = false, float volumeScale = 1f) {

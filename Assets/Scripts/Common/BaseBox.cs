@@ -25,7 +25,8 @@ namespace SF.Common {
 			}
 		}
 
-		public event Action<float> OnCurHpChanged;
+		public event Action<float>   OnCurHpChanged;
+		public event Action<BaseBox> OnDestroyed;
 
 		protected void InitInternal(float startHp) {
 			_startHp = startHp;
@@ -43,6 +44,7 @@ namespace SF.Common {
 		}
 
 		public virtual void Die() {
+			OnDestroyed?.Invoke(this);
 			Destroy(gameObject);
 		}
 
