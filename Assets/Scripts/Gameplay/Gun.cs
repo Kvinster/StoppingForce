@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
+using System;
+
 using SF.Common;
 using SF.LevelSelect;
 using SF.Managers;
@@ -16,7 +18,7 @@ namespace SF.Gameplay {
 		public float PushForce;
 		public float Dps = 10;
 		public bool  CanMove;
-		public float PushMovementForce = 1f;
+		public float PushMovementForce   = 1f;
 		public float ManualMovementForce = 3f;
 		[Header("Line")]
 		public LineRenderer LineRenderer;
@@ -30,6 +32,20 @@ namespace SF.Gameplay {
 		float _hor;
 
 		RaycastHit2D? _hit;
+
+		bool _isShooting;
+		public bool IsShooting {
+			get => _isShooting;
+			private set {
+				if ( _isShooting == value ) {
+					return;
+				}
+				_isShooting = value;
+				OnIsShootingChanged?.Invoke(_isShooting);
+			}
+		}
+
+		public event Action<bool> OnIsShootingChanged;
 
 		protected override void Init(GameStarter starter) {
 			_camera                    = CameraUtility.Instance.MainCamera;
@@ -94,15 +110,20 @@ namespace SF.Gameplay {
 				var barrelPos = BarrelTransform.position;
 				var mousePos  = (Vector3) (Vector2) _camera.ScreenToWorldPoint(Input.mousePosition);
 				if ( Vector2.Distance(mousePos, barrelPos) <= 1f ) {
-					_hit = null;
+					_hit       = null;
+					IsShooting = false;
 					return;
 				}
 				_hit = Physics2D.Raycast(barrelPos, (mousePos - barrelPos).normalized, 1000f,
 					LayerMask.GetMask("Box", "Default"));
 				var hit = _hit.Value;
 				if ( !hit.collider ) {
+					IsShooting = false;
 					return;
 				}
+
+				IsShooting = true;
+
 				var box = hit.collider.gameObject.GetComponent<BaseBox>();
 				if ( !box ) {
 					if ( CanMove && Rigidbody ) {
@@ -118,7 +139,8 @@ namespace SF.Gameplay {
 				}
 				box.TakeDamage(Dps * Time.fixedDeltaTime);
 			} else {
-				_hit = null;
+				_hit       = null;
+				IsShooting = false;
 			}
 		}
 

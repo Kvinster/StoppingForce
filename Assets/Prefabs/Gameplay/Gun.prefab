@@ -247,6 +247,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3548072643891502973}
   - component: {fileID: 3548072643891502972}
+  - component: {fileID: 503662794093295980}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -295,6 +296,21 @@ MonoBehaviour:
   LineRenderer: {fileID: 3548072642817854525}
   HitColor: {r: 0, g: 1, b: 0, a: 1}
   NoHitColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+--- !u!114 &503662794093295980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3548072643891502971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f26744f0fde948dc83e70018a904e366, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VolumeScale: 0.25
+  Gun: {fileID: 3548072643891502972}
+  Clip: {fileID: 8300000, guid: 2b15549f0177f4bda9ce34a99bdf496c, type: 3}
 --- !u!1 &3548072644069558632
 GameObject:
   m_ObjectHideFlags: 0
