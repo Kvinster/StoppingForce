@@ -334,6 +334,8 @@ GameObject:
   - component: {fileID: 4342616897010920492}
   - component: {fileID: 4342616897010920495}
   - component: {fileID: 4342616897010920494}
+  - component: {fileID: 6009788896972495437}
+  - component: {fileID: 2668254332602840323}
   m_Layer: 8
   m_Name: Box
   m_TagString: Untagged
@@ -491,6 +493,43 @@ SpringJoint2D:
   m_Distance: 7.6001053
   m_DampingRatio: 0
   m_Frequency: 1
+--- !u!114 &6009788896972495437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4342616897010920488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a105b632a654f3e82cccfbdd4383b21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundPlayer: {fileID: 2668254332602840323}
+--- !u!114 &2668254332602840323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4342616897010920488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c09c316b270a46c2bec25f276eefe07a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sounds:
+  - {fileID: 8300000, guid: d27d60be13ac944fdba13d86682e80c4, type: 3}
+  - {fileID: 8300000, guid: 73a73f3156d7f4c9390d2476dc89ccf7, type: 3}
+  - {fileID: 8300000, guid: 9b900536ff443492daf6ddf63771e236, type: 3}
+  - {fileID: 8300000, guid: 7b2fda06eb76043c3995b670d86cb1fd, type: 3}
+  - {fileID: 8300000, guid: 9fbe0c9440ccc4b0e84ceb44e2d81a64, type: 3}
+  - {fileID: 8300000, guid: ccc6220a490504e6dbc433940ef13abc, type: 3}
+  - {fileID: 8300000, guid: 2b0c9fad4a5cf43089f4fc8cd6bdd94f, type: 3}
+  - {fileID: 8300000, guid: 4951f10eb514a43dc9f38d12a8dde7e7, type: 3}
+  - {fileID: 8300000, guid: e508cc5047f704ae0a28b308dbae4883, type: 3}
+  - {fileID: 8300000, guid: 5279e65f19e2d43e18f7d26fe1f7ff66, type: 3}
+  - {fileID: 8300000, guid: baf73b0a415174220a0f726814f172f1, type: 3}
 --- !u!1 &4342616897116829297
 GameObject:
   m_ObjectHideFlags: 0
